@@ -1,0 +1,25 @@
+{
+  "items": [{
+    "name": "A",
+    "basePrice": 50,
+    "priceStrategy": {
+      "id": "xForY",
+      "num": 3,
+      "price": 130
+    }
+  }, {
+    "name": "B",
+    "basePrice": 30,
+    "priceStrategy": {
+      "id": "xForY",
+      "num": 2,
+      "price": 45
+    }
+  }, {
+    "name": "C",
+    "basePrice": 20
+  }, {
+    "name": "D",
+    "basePrice": 15
+  }]
+}
