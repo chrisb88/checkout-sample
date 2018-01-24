@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact name="checkout">
+    <output-path>$PROJECT_DIR$/out/artifacts/checkout</output-path>
+    <root id="root">
+      <element id="archive" name="checkout.jar">
+        <element id="module-output" name="kata09" />
+        <element id="directory" name="META-INF">
+          <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources/META-INF" />
+        </element>
+      </element>
+      <element id="library" level="project" name="Gradle: com.googlecode.json-simple:json-simple:1.1" />
+      <element id="directory" name="conf">
+        <element id="dir-copy" path="$PROJECT_DIR$/conf" />
+      </element>
+    </root>
+  </artifact>
+</component>
