@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://F://kata09/kata09.iml" filepath="F://kata09/kata09.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kata09.iml" filepath="$PROJECT_DIR$/kata09.iml" />
     </modules>
   </component>
 </project>
