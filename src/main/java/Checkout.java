@@ -1,12 +1,30 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
 import java.util.*;
 
 /**
  * Created by chris on 24.01.2018.
  */
 public class Checkout {
+
+	public static void main(String[] args) {
+		if (args.length != 1) {
+			printUsage();
+		} else {
+			String goods = args[0];
+			System.out.print(goods);
+
+			Checkout co = new Checkout(readRules());
+			System.out.println(" = " + co.processItemString(goods));
+		}
+	}
+
+	private static void printUsage() {
+		System.out.println("Use me right!");
+	}
 
 	public class InvalidItemException extends RuntimeException {}
 
@@ -36,7 +54,6 @@ public class Checkout {
 
 		Map<String, Integer> counts = basket.getCounts();
 		for (Map.Entry<String, Integer> item : counts.entrySet()) {
-//			System.out.println(item.getKey() + "/" + item.getValue());
 			PriceItem priceItem = getPriceItem(item.getKey());
 			int itemCount = item.getValue();
 
@@ -65,5 +82,26 @@ public class Checkout {
 		}
 
 		return null;
+	}
+
+	public static JSONObject readRules() {
+		JSONParser parser = new JSONParser();
+
+		JSONObject obj = null;
+		try {
+			obj = (JSONObject) parser.parse(new FileReader("./conf/prices.json"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return obj;
+	}
+
+	public long processItemString(String itemString) {
+		for (int i = 0; i < itemString.length(); i++) {
+			scan(itemString.charAt(i));
+		}
+
+		return total();
 	}
 }

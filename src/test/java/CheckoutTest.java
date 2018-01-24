@@ -1,9 +1,5 @@
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.FileReader;
 
 /**
  * Created by chris on 24.01.2018.
@@ -12,7 +8,7 @@ public class CheckoutTest {
 
 	@Test
 	public void basePrices() {
-		Checkout co = new Checkout(readRules());
+		Checkout co = new Checkout(Checkout.readRules());
 		co.scan('A');
 		Assert.assertEquals(50, co.total());
 		co.clearBasket();
@@ -51,7 +47,7 @@ public class CheckoutTest {
 
 	@Test
 	public void incremental() {
-		Checkout co = new Checkout(readRules());
+		Checkout co = new Checkout(Checkout.readRules());
 		Assert.assertEquals(0, co.total());
 
 		co.scan('A');
@@ -71,25 +67,7 @@ public class CheckoutTest {
 	}
 
 	private long price(String goods) {
-		Checkout co = new Checkout(readRules());
-
-		for (int i = 0; i < goods.length(); i++) {
-			co.scan(goods.charAt(i));
-		}
-
-		return co.total();
-	}
-
-	private JSONObject readRules() {
-		JSONParser parser = new JSONParser();
-
-		JSONObject obj = null;
-		try {
-			obj = (JSONObject) parser.parse(new FileReader("./conf/prices.json"));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		return obj;
+		Checkout co = new Checkout(Checkout.readRules());
+		return co.processItemString(goods);
 	}
 }
