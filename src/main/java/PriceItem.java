@@ -14,7 +14,7 @@ public class PriceItem {
 	private long basePrice;
 	private PriceStrategy priceStrategy;
 
-	public PriceItem(String name, long basePrice, JSONObject strategy) {
+	public PriceItem(final String name, final long basePrice, final JSONObject strategy) {
 		this.name = name;
 		this.basePrice = basePrice;
 
@@ -25,19 +25,19 @@ public class PriceItem {
 		return name;
 	}
 
-	public long getPrice(int itemCount) {
+	public long getPrice(final long itemCount) {
 		return priceStrategy.getPrice(itemCount);
 	}
 
-	private void applyStrategy(JSONObject strategy) {
+	private void applyStrategy(final JSONObject strategy) {
 		if (strategy == null) {
 			applyDefaultStrategy();
 		} else {
-			String id = (String) strategy.get("id");
+			final String id = (String) strategy.get("id");
 			switch (id) {
 				case "xForY":
-					long num = (long) strategy.get("num");
-					long price = (long) strategy.get("price");
+					final long num = (long) strategy.get("num");
+					final long price = (long) strategy.get("price");
 					priceStrategy = new XForYStrategy(basePrice, num, price);
 					break;
 				default:

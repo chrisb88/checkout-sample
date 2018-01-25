@@ -6,11 +6,11 @@ package PriceStrategies;
 public class BasePriceStrategy implements PriceStrategy {
 	private long basePrice = 0;
 
-	public BasePriceStrategy(long basePrice) {
+	public BasePriceStrategy(final long basePrice) {
 		this.basePrice = basePrice;
 	}
 
-	public long getPrice(int itemCount) {
+	public long getPrice(final long itemCount) {
 		return itemCount * basePrice;
 	}
 }

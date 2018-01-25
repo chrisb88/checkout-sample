@@ -1,14 +1,19 @@
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Created by chris on 24.01.2018.
  */
 public class CheckoutTest {
 
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+
 	@Test
 	public void basePrices() {
-		Checkout co = new Checkout(Checkout.readRules());
+		final Checkout co = new Checkout(Checkout.readRules());
 		co.scan('A');
 		Assert.assertEquals(50, co.total());
 		co.clearBasket();
@@ -47,7 +52,7 @@ public class CheckoutTest {
 
 	@Test
 	public void incremental() {
-		Checkout co = new Checkout(Checkout.readRules());
+		final Checkout co = new Checkout(Checkout.readRules());
 		Assert.assertEquals(0, co.total());
 
 		co.scan('A');
@@ -66,8 +71,16 @@ public class CheckoutTest {
 		Assert.assertEquals(175, co.total());
 	}
 
-	private long price(String goods) {
-		Checkout co = new Checkout(Checkout.readRules());
+	@Test
+	public void exceptions() {
+		final Checkout co = new Checkout(Checkout.readRules());
+
+		exception.expect(Checkout.InvalidItemException.class);
+		co.scan('E');
+	}
+
+	private long price(final String goods) {
+		final Checkout co = new Checkout(Checkout.readRules());
 		return co.processItemString(goods);
 	}
 }

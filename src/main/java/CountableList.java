@@ -8,7 +8,7 @@ import java.util.Map;
  * Created by chris on 24.01.2018.
  */
 public class CountableList<E> extends ArrayList<E> {
-	private Map<E, Integer> counts = new HashMap<>();
+	final private Map<E, Integer> counts = new HashMap<>();
 
 	public boolean add(E e) {
 		if (!counts.containsKey(e)) {

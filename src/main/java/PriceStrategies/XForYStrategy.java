@@ -9,14 +9,14 @@ public class XForYStrategy implements PriceStrategy {
 	private long discountNumber = 1;
 	private long discountPrice = 0;
 
-	public XForYStrategy(long basePrice, long num, long price) {
+	public XForYStrategy(final long basePrice, final long num, final long price) {
 		this.basePrice = basePrice;
 		this.discountNumber = num;
 		this.discountPrice = price;
 	}
 
-	public long getPrice(int itemCount) {
-		long discount = (long) itemCount / discountNumber;
+	public long getPrice(final long itemCount) {
+		long discount = itemCount / discountNumber;
 		long remainder = itemCount % discountNumber;
 
 		return discount * discountPrice + remainder * basePrice;

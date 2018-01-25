@@ -10,40 +10,45 @@ import java.util.*;
  */
 public class Checkout {
 
-	public static void main(String[] args) {
-		if (args.length != 1) {
-			printUsage();
-		} else {
-			String goods = args[0];
-			System.out.print(goods);
+	private static final String PRICE_CONFIG_FILE = "./conf/prices.json";
 
-			Checkout co = new Checkout(readRules());
-			System.out.println(" = " + co.processItemString(goods));
+	public class InvalidItemException extends RuntimeException {
+		public InvalidItemException(String message) {
+			super(message);
 		}
 	}
 
-	private static void printUsage() {
-		System.out.println("Use me right!");
-	}
+	private Set<PriceItem> priceItems = new HashSet<>();
+	private CountableList<String> basket = new CountableList<>();
 
-	public class InvalidItemException extends RuntimeException {}
-
-	Set<PriceItem> priceItems = new HashSet<>();
-	CountableList<String> basket = new CountableList<>();
-
-	public Checkout(JSONObject prices) {
-		JSONArray items = (JSONArray) prices.get("items");
+	public Checkout(final JSONObject prices) {
+		final JSONArray items = (JSONArray) prices.get("items");
 		for (JSONObject item : (Iterable<JSONObject>) items) {
-			String name = (String) item.get("name");
-			long basePrice = (long) item.get("basePrice");
-			JSONObject strategy = (JSONObject) item.get("priceStrategy");
+			final String name = (String) item.get("name");
+			final long basePrice = (long) item.get("basePrice");
+			final JSONObject strategy = (JSONObject) item.get("priceStrategy");
 			priceItems.add(new PriceItem(name, basePrice, strategy));
 		}
 	}
 
-	public void scan(char item) {
+	public static void main(String[] args) {
+		if (args.length != 1) {
+			printUsage();
+		} else {
+			final String goods = args[0];
+			final Checkout co = new Checkout(readRules());
+			System.out.println(String.format("%s = %s", goods, co.processItemString(goods)));
+		}
+	}
+
+	private static void printUsage() {
+		// todo
+		System.out.println("Use me right!");
+	}
+
+	public void scan(final char item) {
 		if (!itemIsValid(item)) {
-			throw new InvalidItemException();
+			throw new InvalidItemException(String.format("Unknown item '%s'", item));
 		}
 
 		basket.add(String.valueOf(item));
@@ -52,10 +57,10 @@ public class Checkout {
 	public long total() {
 		long amount = 0;
 
-		Map<String, Integer> counts = basket.getCounts();
+		final Map<String, Integer> counts = basket.getCounts();
 		for (Map.Entry<String, Integer> item : counts.entrySet()) {
-			PriceItem priceItem = getPriceItem(item.getKey());
-			int itemCount = item.getValue();
+			final PriceItem priceItem = getPriceItem(item.getKey());
+			final int itemCount = item.getValue();
 
 			if (priceItem != null) {
 				amount += priceItem.getPrice(itemCount);
@@ -69,12 +74,11 @@ public class Checkout {
 		basket.clear();
 	}
 
-	private boolean itemIsValid(char item) {
-		// todo
-		return true;
+	private boolean itemIsValid(final char item) {
+		return getPriceItem(String.valueOf(item)) != null;
 	}
 
-	private PriceItem getPriceItem(String name) {
+	private PriceItem getPriceItem(final String name) {
 		for (PriceItem item : priceItems) {
 			if (item.getName().equals(name)) {
 				return item;
@@ -85,19 +89,19 @@ public class Checkout {
 	}
 
 	public static JSONObject readRules() {
-		JSONParser parser = new JSONParser();
+		final JSONParser parser = new JSONParser();
 
 		JSONObject obj = null;
 		try {
-			obj = (JSONObject) parser.parse(new FileReader("./conf/prices.json"));
+			obj = (JSONObject) parser.parse(new FileReader(PRICE_CONFIG_FILE));
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 
 		return obj;
 	}
 
-	public long processItemString(String itemString) {
+	public long processItemString(final String itemString) {
 		for (int i = 0; i < itemString.length(); i++) {
 			scan(itemString.charAt(i));
 		}
