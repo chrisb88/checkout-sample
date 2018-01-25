@@ -1,7 +1,7 @@
 package PriceStrategies;
 
 /**
- * Created by chris on 24.01.2018.
+ * Price strategy interface
  */
 public interface PriceStrategy {
 	long getPrice(long itemCount);

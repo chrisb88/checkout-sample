@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Created by chris on 24.01.2018.
+ * Tests for Checkout class.
  */
 public class CheckoutTest {
 

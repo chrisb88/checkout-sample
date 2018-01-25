@@ -1,7 +1,7 @@
 package PriceStrategies;
 
 /**
- * Created by chris on 24.01.2018.
+ * Base price strategy calculates the price simply by multiplying the base price with the amount of items.
  */
 public class BasePriceStrategy implements PriceStrategy {
 	private long basePrice = 0;

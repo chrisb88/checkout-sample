@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by chris on 24.01.2018.
+ * This is a helper list to keep track of how many individual items there are in the list.
+ * It is far from finished, so be careful.
  */
 public class CountableList<E> extends ArrayList<E> {
 	final private Map<E, Integer> counts = new HashMap<>();
