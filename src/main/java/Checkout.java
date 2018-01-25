@@ -32,7 +32,7 @@ public class Checkout {
 	}
 
 	public static void main(String[] args) {
-		if (args.length != 1) {
+		if (args.length != 1 || "--help".equals(args[0]) || "-h".equals(args[0]) || "/?".equals(args[0])) {
 			printUsage();
 		} else {
 			final String goods = args[0];
@@ -42,8 +42,10 @@ public class Checkout {
 	}
 
 	private static void printUsage() {
-		// todo
-		System.out.println("Use me right!");
+		System.out.println("I calculate the total price of a number of items.");
+		System.out.println("You can configure the items and prices in conf/prices.json");
+		System.out.println("Usage: checkout.jar item1[item2[item3[...]]]");
+		System.out.println("Example: checkout.jar ABACDA");
 	}
 
 	public void scan(final char item) {
