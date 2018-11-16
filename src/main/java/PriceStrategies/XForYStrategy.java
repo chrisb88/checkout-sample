@@ -2,7 +2,7 @@ package PriceStrategies;
 
 /**
  * X for y strategy calculates the price for multi priced items e.g.
- * buy x of them, and they’ll cost you y.
+ * buy x of them, and they'll cost you y.
  * The base price is applied to any leftover items.
  */
 public class XForYStrategy implements PriceStrategy {
